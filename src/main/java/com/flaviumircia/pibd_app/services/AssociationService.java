@@ -39,4 +39,12 @@ public class AssociationService {
         associationRepository.save(association);
     }
 
+    public void deleteById(Long id) {
+        boolean checkIfExists=
+                associationRepository.existsById(id);
+        if(!checkIfExists){
+            throw new IllegalStateException("The id:"+id+" does not exist in the database!");
+        }
+        associationRepository.deleteById(id);
+    }
 }

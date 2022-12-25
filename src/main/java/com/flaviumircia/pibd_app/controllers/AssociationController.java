@@ -36,5 +36,9 @@ public class AssociationController {
     public void registerClientAndOrder(@RequestBody Association association){
         associationService.addAssociation(association);
     }
+    @DeleteMapping(path = "{association_id}")
+    public void deleteAssociationById(@PathVariable("association_id") Long id){
+        associationService.deleteById(id);
+    }
 
 }
