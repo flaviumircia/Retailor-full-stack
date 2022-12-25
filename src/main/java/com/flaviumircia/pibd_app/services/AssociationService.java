@@ -1,6 +1,6 @@
 package com.flaviumircia.pibd_app.services;
 
-import com.flaviumircia.pibd_app.models.Association;
+import com.flaviumircia.pibd_app.pojos.AssociationPojo;
 import com.flaviumircia.pibd_app.repositories.AssociationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,7 @@ public class AssociationService {
         this.associationRepository = associationRepository;
     }
 
-    public List<Association> getAll(){return associationRepository.findAll();}
+    public List<AssociationPojo[]> getAll(){
+        return associationRepository.findAllSumarized();}
 
 }
