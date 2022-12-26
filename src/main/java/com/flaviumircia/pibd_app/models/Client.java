@@ -1,5 +1,7 @@
 package com.flaviumircia.pibd_app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.Order;
 
@@ -30,7 +32,9 @@ public class Client {
      String state;
      String zipcode;
      String phone_no;
+
      @OneToMany(mappedBy = "client")
+     @JsonIgnore
      Set<Association> associationSet;
 //    @ManyToMany(cascade = {
 //             CascadeType.MERGE

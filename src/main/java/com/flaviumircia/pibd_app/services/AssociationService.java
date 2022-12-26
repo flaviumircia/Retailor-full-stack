@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AssociationService {
@@ -46,5 +44,21 @@ public class AssociationService {
             throw new IllegalStateException("The id:"+id+" does not exist in the database!");
         }
         associationRepository.deleteById(id);
+    }
+
+    public void updateById(Long id, Association association) {
+        Association checkIfExists=associationRepository.findById(id).orElseThrow(()->new RuntimeException("Association with id:"+id+" does not exists!"));
+        if(association!=null && !association.getClient().equals(checkIfExists.getClient())){
+            checkIfExists.setClient(association.getClient());
+        }
+        if(association!=null && !association.getOrders().equals(checkIfExists.getOrders())){
+            checkIfExists.setOrders(association.getOrders());
+        }
+        if(association!=null && !association.getPayment().equals(checkIfExists.getPayment())){
+            checkIfExists.setPayment(association.getPayment());
+        }
+        if(association!=null)
+            associationRepository.save(association);
+        else{throw new NullPointerException("The object that you passed is null!");}
     }
 }

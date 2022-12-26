@@ -41,4 +41,11 @@ public class AssociationController {
         associationService.deleteById(id);
     }
 
+//TODO: PUTMAPPING
+
+    @PutMapping(path = "{association_id}")
+    public void updateAssociationById(@PathVariable("association_id") Long id,
+                                      @RequestBody Association association){
+        associationService.updateById(id,association);
+    }
 }

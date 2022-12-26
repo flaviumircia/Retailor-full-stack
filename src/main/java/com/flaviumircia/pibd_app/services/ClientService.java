@@ -43,16 +43,9 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
     @Transactional
-    public void updateClient(Long id, String email, String name, String address, String city, String zipcode, String phone_no) {
+    public void updateClient(Long id, String name, String address, String city, String zipcode, String phone_no) {
         Client client=clientRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Client with the id = " + id +" does NOT exists"));
-        if(email!=null && email.length()>0 && !Objects.equals(client.getEmail(),email)){
-            Optional<Client> clientOptional=clientRepository.findClientByEmail(email);
-            if(clientOptional.isPresent()){
-                throw new IllegalStateException("email is already registered!");
-            }
-            client.setEmail(email);
-        }
         if(name!=null && name.length()>0 && !Objects.equals(client.getName(),name)){
             client.setName(name);
         }

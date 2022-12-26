@@ -1,5 +1,7 @@
 package com.flaviumircia.pibd_app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class Orders {
     double total;
 
     @OneToMany(mappedBy = "orders")
+    @JsonIgnore
     Set<Association> associationSet;
 //
 //    @ManyToMany(mappedBy = "orders")

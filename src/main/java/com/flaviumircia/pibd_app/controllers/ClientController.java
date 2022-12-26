@@ -33,12 +33,11 @@ public class ClientController {
     }
     @PutMapping(path = "{clientID}")
     public void updateAClient(@PathVariable("clientID") Long id,
-                              @RequestParam(required = false) String email,
                               @RequestParam(required = false) String name,
                               @RequestParam(required = false) String address,
                               @RequestParam(required = false) String city,
                               @RequestParam(required = false) String zipcode,
                               @RequestParam(required = false) String phone_no){
-        clientService.updateClient(id,email,name,address,city,zipcode,phone_no);
+        clientService.updateClient(id,name,address,city,zipcode,phone_no);
     }
 }
