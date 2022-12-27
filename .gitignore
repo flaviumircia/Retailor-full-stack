@@ -18,8 +18,6 @@ target/
 *.iws
 *.iml
 *.ipr
-src/main/java/com/flaviumircia/pibd_app/misc/credentials.txt
-
 
 ### NetBeans ###
 /nbproject/private/
