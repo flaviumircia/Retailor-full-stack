@@ -36,13 +36,6 @@ public class Client {
      @OneToMany(mappedBy = "client")
      @JsonIgnore
      Set<Association> associationSet;
-//    @ManyToMany(cascade = {
-//             CascadeType.MERGE
-//     })
-//     @JoinTable(name = "association",
-//        joinColumns = @JoinColumn(name = "id_client"),
-//        inverseJoinColumns = @JoinColumn(name="id_order"))
-//     private List<Orders> orders=new ArrayList<>();
 
      public Client(Long id, String name, String address, String email, String city, String state, String zipcode, String phone_no) {
         this.id = id;
