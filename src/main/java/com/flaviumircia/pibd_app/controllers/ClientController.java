@@ -4,6 +4,7 @@ import com.flaviumircia.pibd_app.models.Client;
 import com.flaviumircia.pibd_app.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -20,8 +21,11 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<Client> getClients(){
-        return clientService.getClients();
+    public ModelAndView getClients(){
+        ModelAndView mav=new ModelAndView("list-clients");
+        List<Client> list=clientService.getClients();
+        mav.addObject("clients",list);
+        return mav;
     }
     @PostMapping
     public void registerClient(@RequestBody Client client){

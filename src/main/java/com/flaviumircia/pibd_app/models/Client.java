@@ -73,27 +73,6 @@ public class Client {
         this.associationSet = associationSet;
     }
 
-    //
-//    /**
-//     * Removes order from association table
-//     * @param order
-//     */
-//    public void removeOrder(Orders order) {
-//        orders.remove(order);
-//        order.getClients().remove(this);
-//    }
-//
-//    /**
-//     * adds order to assciation table
-//     * @param order
-//     */
-//    public void addOrder(Orders order){
-//         orders.add(order);
-//         order.getClients().add(this);
-//    }
-//    public List<Orders> getAllOrders(){
-//        return orders;
-//    }
     public Long getId() {
         return id;
     }
