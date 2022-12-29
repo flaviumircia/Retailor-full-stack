@@ -33,7 +33,7 @@ public class Client {
      String zipcode;
      String phone_no;
 
-     @OneToMany(mappedBy = "client")
+     @OneToMany(mappedBy = "client",cascade = CascadeType.REMOVE)
      @JsonIgnore
      Set<Association> associationSet;
 

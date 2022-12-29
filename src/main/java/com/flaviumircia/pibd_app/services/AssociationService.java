@@ -5,6 +5,7 @@ import com.flaviumircia.pibd_app.models.Client;
 import com.flaviumircia.pibd_app.pojos.AssociationPojo;
 import com.flaviumircia.pibd_app.repositories.AssociationRepository;
 import com.flaviumircia.pibd_app.repositories.ClientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,16 +25,13 @@ public class AssociationService {
         this.clientRepository = clientRepository;
     }
 
-    public List<AssociationPojo[]> getAll(){
-        return associationRepository.findAllSumarized();}
+    public List<Association> getAll(){
+        return associationRepository.findAll();}
 
     public void addAssociation(Association association) {
         Client client=association.getClient();
         Pageable first = PageRequest.of(0, 1);
         List<Client> clientByEmail= clientRepository.findFirstClientByEmail(client.getEmail(),first);
-        if(clientByEmail.isEmpty()){
-            throw new IllegalStateException("Client is not registered!\n Please register first then add a new order!");
-        }
         associationRepository.save(association);
     }
 
@@ -46,6 +44,7 @@ public class AssociationService {
         associationRepository.deleteById(id);
     }
 
+    @Transactional
     public void updateById(Long id, Association association) {
         Association checkIfExists=associationRepository.findById(id).orElseThrow(()->new RuntimeException("Association with id:"+id+" does not exists!"));
         if(association!=null && !association.getClient().equals(checkIfExists.getClient())){
@@ -57,8 +56,5 @@ public class AssociationService {
         if(association!=null && !association.getPayment().equals(checkIfExists.getPayment())){
             checkIfExists.setPayment(association.getPayment());
         }
-        if(association!=null)
-            associationRepository.save(association);
-        else{throw new NullPointerException("The object that you passed is null!");}
     }
 }

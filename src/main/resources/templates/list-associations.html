@@ -1,0 +1,94 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>List Associations</title>
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
+  <script th:inline="javascript">
+    function delete_query(id)
+    {
+      var url = "http://localhost:8080/api/v1/assns/";
+      var xhr = new XMLHttpRequest();
+      var params =
+              xhr.open("DELETE", url+id, true);
+      xhr.onreadystatechange = function () {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === "200") {
+        } else {
+          console.error(users);
+        }
+      }
+      xhr.send(null);
+    }
+  </script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h3>List Associations</h3>
+
+  <hr/>
+  <a th:href="@{/api/v1/assns/add/}" class="btn btn-primary">Add Association</a>
+  <br/><br/>
+  <table class="table table-bordered table-striped table-responsive" id="clientTable">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Client Id</th>
+      <th>Client Name</th>
+      <th>Client E-mail</th>
+      <th>Order Id</th>
+      <th>Item Title</th>
+      <th>Total Cost</th>
+      <th>Payment Method</th>
+      <th>Other Operations</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="association: ${assn}">
+      <td th:text="${association.getId()}" />
+      <td th:text="${association.getClient().getId()}" />
+      <td th:text="${association.getClient().getName()}" />
+      <td th:text="${association.getClient().getEmail()}" />
+      <td th:text="${association.getOrders().getId_order()}" />
+      <td th:text="${association.getOrders().getItem_title()}" />
+      <td th:text="${association.getOrders().getTotal()}" />
+      <td th:text="${association.getPayment()}" />
+
+      <td style="text-align: center;vertical-align: middle;">
+        <a th:href="@{/api/v1/assns/update/{id}(id=${association.getId()})}" class="btn btn-info">
+          Update
+        </a>
+        <button class="btn btn-danger" th:onclick="delete_query([[${association.getId()}]])" >
+          Delete</button>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#clientTable").DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1] /* 1st one, start by the right */
+      }]
+    });
+  })
+</script>
+</body>
+
+</html>

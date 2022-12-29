@@ -1,0 +1,90 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>List Orders</title>
+
+  <link rel="stylesheet"
+        type="text/css"
+        href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
+  <script th:inline="javascript">
+    function delete_query(id)
+    {
+      var url = "http://localhost:8080/api/v1/orders/";
+      var xhr = new XMLHttpRequest();
+      var params =
+              xhr.open("DELETE", url+id, true);
+      xhr.onreadystatechange = function () {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === "200") {
+        } else {
+          console.error(users);
+        }
+      }
+      xhr.send(null);
+    }
+  </script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h3>List Orders</h3>
+
+  <hr/>
+  <a th:href="@{/api/v1/orders/add/}" class="btn btn-primary">Add Order</a>
+  <br/><br/>
+  <table class="table table-bordered table-striped table-responsive" id="clientTable">
+    <thead>
+    <tr>
+      <th>Order id</th>
+      <th>Item Title</th>
+      <th>Item Description</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Other Operations</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order: ${orders}">
+      <td th:text="${order.getId_order()}" />
+      <td th:text="${order.getItem_title()}" />
+      <td th:text="${order.getItem_description()}" />
+      <td th:text="${order.getQuantity()}" />
+      <td th:text="${order.getUnit_price()}" />
+      <td th:text="${order.getTotal()}" />
+      <td style="text-align: center;vertical-align: middle;">
+        <a th:href="@{/api/v1/orders/update/{id}(id=${order.getId_order()})}" class="btn btn-info">
+          Update
+        </a>
+        <!--                <a th:method="delete" th:action="@{/api/v1/clients/{id}(id=${client.getId()})}" class="btn btn-danger" href="/api/v1/clients/">Delete</a>-->
+        <button class="btn btn-danger" th:onclick="delete_query([[${order.getId_order()}]])" >
+          Delete</button>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#clientTable").DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1] /* 1st one, start by the right */
+      }]
+    });
+  })
+</script>
+</body>
+
+</html>

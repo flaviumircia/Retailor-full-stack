@@ -80,8 +80,8 @@ public class Association {
     public String toString() {
         return "Association{" +
                 "id=" + id +
-                ", client=" + client.getName() +
-                ", orders=" + orders.getItem_title() +
+                ", client=" + client.toString() +
+                ", orders=" + orders.toString() +
                 ", payment='" + payment + '\'' +
                 '}';
     }

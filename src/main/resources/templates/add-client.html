@@ -1,0 +1,70 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Add Client</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
+  <script th:inline="javascript">
+    function transformFormToJson()
+    {
+// Find our form in the DOM using its class name.
+      const form = document.getElementByClassName('.contact-form')[0];
+
+// Get the form data with our (yet to be defined) function.
+      const data = getFormDataAsJSON(form);
+      return data;
+    }
+    function post_request()
+    {
+      var data=transformFormToJson()
+      var url = "http://localhost:8080/api/v1/clients/new_client/save/";
+      var xhr = new XMLHttpRequest();
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.open("POST", url, true);
+      xhr.onreadystatechange = function () {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === "200") {
+
+        } else {
+          console.error(users);
+        }
+      }
+      xhr.send(data);
+    }
+    // document.addEventListener('DOMContentLoaded',function (){
+    //    document.getElementById("delete_button").addEventListener("click",delete_query);
+    // });
+  </script>
+</head>
+<body>
+
+<div class="container">
+
+  <h3>Add New Client</h3>
+  <hr/>
+
+  <form class="contact_form" method="POST" th:action="@{/api/v1/clients/new_client/save/}" th:object="${client}">
+
+    <input type="text" th:field="*{name}" class="form-control col-4 mb-4" placeholder="Enter Name" />
+
+    <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Enter email" />
+
+    <input type="text" th:field="*{address}" class="form-control col-4 mb-4" placeholder="Enter address" />
+    <input type="text" th:field="*{city}" class="form-control col-4 mb-4" placeholder="Enter city" />
+    <input type="text" th:field="*{state}" class="form-control col-4 mb-4" placeholder="Enter state" />
+    <input type="text" th:field="*{zipcode}" class="form-control col-4 mb-4" placeholder="Enter zipcode" />
+    <input type="text" th:field="*{phone_no}" class="form-control col-4 mb-4" placeholder="Enter phone number" />
+
+    <button type="submit" class="btn btn-primary col-2">Save</button>
+    <input type="hidden" th:field="*{id}" />
+
+  </form>
+  <hr/>
+  <a th:href="@{/api/v1/clients/}">Back to list</a>
+</div>
+
+</body>
+</html>

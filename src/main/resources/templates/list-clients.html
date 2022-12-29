@@ -10,6 +10,23 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
           crossorigin="anonymous" />
+    <script th:inline="javascript">
+        function delete_query(id)
+        {
+            var url = "http://localhost:8080/api/v1/clients/";
+            var xhr = new XMLHttpRequest();
+            var params =
+                xhr.open("DELETE", url+id, true);
+            xhr.onreadystatechange = function () {
+                var users = JSON.parse(xhr.responseText);
+                if (xhr.readyState === 4 && xhr.status === "200") {
+                } else {
+                    console.error(users);
+                }
+            }
+            xhr.send(null);
+        }
+    </script>
 </head>
 
 <body>
@@ -19,7 +36,7 @@
     <h3>List Clients</h3>
 
     <hr/>
-    <a th:href="@{/addClientForm}" class="btn btn-primary">Add Client</a>
+    <a th:href="@{/api/v1/clients/new_client/}" class="btn btn-primary">Add Client</a>
     <br/><br/>
     <table class="table table-bordered table-striped table-responsive" id="clientTable">
         <thead>
@@ -32,18 +49,27 @@
             <th>State</th>
             <th>Zipcode</th>
             <th>Phone Number</th>
+            <th>Other Operations</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr th:each="clients: ${clients}">
-            <td th:text="${clients.getId()}" />
-            <td th:text="${clients.getName()}" />
-            <td th:text="${clients.getEmail()}" />
-            <td th:text="${clients.getAddress()}" />
-            <td th:text="${clients.getCity()}" />
-            <td th:text="${clients.getState()}" />
-            <td th:text="${clients.getZipcode()}" />
-            <td th:text="${clients.getPhone_no()}" />
+        <tr th:each="client: ${clients}">
+            <td th:text="${client.getId()}" />
+            <td th:text="${client.getName()}" />
+            <td th:text="${client.getEmail()}" />
+            <td th:text="${client.getAddress()}" />
+            <td th:text="${client.getCity()}" />
+            <td th:text="${client.getState()}" />
+            <td th:text="${client.getZipcode()}" />
+            <td th:text="${client.getPhone_no()}" />
+            <td style="text-align: center;vertical-align: middle;">
+                <a th:href="@{/api/v1/clients/update/{id}(id=${client.getId()})}" class="btn btn-info">
+                    Update
+                </a>
+<!--                <a th:method="delete" th:action="@{/api/v1/clients/{id}(id=${client.getId()})}" class="btn btn-danger" href="/api/v1/clients/">Delete</a>-->
+                <button class="btn btn-danger" th:onclick="delete_query([[${client.getId()}]])" >
+                    Delete</button>
             </td>
         </tr>
         </tbody>

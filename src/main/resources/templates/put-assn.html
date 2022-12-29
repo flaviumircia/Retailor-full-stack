@@ -1,0 +1,72 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Update Client</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
+  <script th:inline="javascript">
+    function transformFormToJson()
+    {
+// Find our form in the DOM using its class name.
+      const form = document.getElementsByClassName('.contact-form')[0];
+
+// Get the form data with our (yet to be defined) function.
+      const data = JSON.stringify(form);
+      return data;
+    }
+    function put_request()
+    {
+      var data=transformFormToJson()
+      var url = window.location.href;
+      var xhr = new XMLHttpRequest();
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.open("PUT", url, true);
+      xhr.onreadystatechange = function () {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === "200") {
+
+        } else {
+          console.error(users);
+        }
+      }
+      xhr.send(data);
+    }
+    // document.addEventListener('DOMContentLoaded',function (){
+    //    document.getElementById("delete_button").addEventListener("click",delete_query);
+    // });
+  </script>
+</head>
+<body>
+
+<div class="container">
+
+  <h3>Update Client</h3>
+  <hr/>
+
+  <form class="contact_form" method="POST" th:object="${assn}">
+
+    <input type="text" th:field="*{client.name}" class="form-control col-4 mb-4" placeholder="Enter Client Name" />
+    <input type="text" th:field="*{client.email}" class="form-control col-4 mb-4" placeholder="Enter Client Email" />
+    <input type="text" th:field="*{client.city}" class="form-control col-4 mb-4" placeholder="Enter Client Address" />
+    <input type="text" th:field="*{client.state}" class="form-control col-4 mb-4" placeholder="Enter Client City" />
+    <input type="text" th:field="*{client.zipcode}" class="form-control col-4 mb-4" placeholder="Enter Client State" />
+    <input type="text" th:field="*{client.phone_no}" class="form-control col-4 mb-4" placeholder="Enter Client Phone Number" />
+    <input type="text" th:field="*{orders.item_title}" class="form-control col-4 mb-4" placeholder="Enter Item Title" />
+    <input type="text" th:field="*{orders.item_description}" class="form-control col-4 mb-4" placeholder="Enter Item Description" />
+    <input type="text" th:field="*{orders.quantity}" class="form-control col-4 mb-4" placeholder="Enter Quantity" />
+    <input type="text" th:field="*{orders.unit_price}" class="form-control col-4 mb-4" placeholder="Enter Unit Price" />
+    <input type="text" th:field="*{payment}" class="form-control col-4 mb-4" placeholder="Enter Payment Method" />
+
+    <button type="submit" class="btn btn-primary col-2">Update</button>
+    <input type="hidden" th:field="*{id}" />
+
+  </form>
+  <hr/>
+  <a th:href="@{/api/v1/assns/}">Back to list</a>
+</div>
+
+</body>
+</html>
